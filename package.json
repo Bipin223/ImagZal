@@ -17,6 +17,7 @@
     "heic2any": "^0.0.4",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.468.0",
+    "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.10.38",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

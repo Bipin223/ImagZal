@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { DragEvent, ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -26,7 +26,32 @@ export function FileDrop({
   disabled = false,
 }: FileDropProps) {
   const depth = useRef(0);
+  const hostRef = useRef<HTMLLabelElement>(null);
+  const onFilesRef = useRef(onFiles);
+  onFilesRef.current = onFiles;
   const [dragging, setDragging] = useState(false);
+
+  // Paste (Ctrl+V) into whichever dropzone is currently visible.
+  useEffect(() => {
+    const handlePaste = (event: ClipboardEvent) => {
+      if (disabled) return;
+      const host = hostRef.current;
+      if (!host || host.closest('[hidden]') || !event.clipboardData) return;
+      const files = Array.from(event.clipboardData.files ?? []);
+      if (!files.length) {
+        for (const item of Array.from(event.clipboardData.items ?? [])) {
+          if (item.kind !== 'file') continue;
+          const pasted = item.getAsFile();
+          if (pasted) files.push(pasted);
+        }
+      }
+      if (!files.length) return;
+      event.preventDefault();
+      onFilesRef.current(files);
+    };
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, [disabled]);
 
   const handleDragEnter = (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -54,6 +79,7 @@ export function FileDrop({
 
   return (
     <label
+      ref={hostRef}
       className={[
         'drop',
         compact ? 'drop-compact' : '',
@@ -98,6 +124,7 @@ export function FileDrop({
         <>
           <span className="drop-title">{dragging ? 'Release to add' : title}</span>
           <span className="drop-hint">{hint}</span>
+          <span className="drop-paste">or press Ctrl / ⌘ + V to paste</span>
         </>
       )}
     </label>

@@ -7,9 +7,11 @@ import {
   Files,
   Image as ImageIcon,
   Infinity as InfinityIcon,
+  Layers,
   ShieldCheck,
   Sparkles,
   UserRound,
+  Wand2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import bipinPhoto from './assets/bipin.jpg';
@@ -21,9 +23,11 @@ import { useTheme } from './hooks/useTheme';
 import { ImageConverter } from './tools/ImageConverter';
 import { PdfToImage } from './tools/PdfToImage';
 import { ImageToPdf } from './tools/ImageToPdf';
+import { ImageStudio } from './tools/ImageStudio';
+import { PdfStudio } from './tools/PdfStudio';
 import type { ToastItem } from './lib/types';
 
-type ToolId = 'images' | 'pdf-to-image' | 'image-to-pdf';
+type ToolId = 'images' | 'pdf-to-image' | 'image-to-pdf' | 'image-studio' | 'pdf-studio';
 
 interface Tool {
   id: ToolId;
@@ -54,6 +58,20 @@ const TOOLS: Tool[] = [
     formats: 'JPG, PNG, WEBP → PDF',
     description: 'Combine photos into a single document.',
     icon: Files,
+  },
+  {
+    id: 'image-studio',
+    name: 'Image studio',
+    formats: 'Compress · resize · watermark · privacy',
+    description: 'Everyday image jobs: hit a file-size target, resize, watermark, strip metadata, make favicons, passport sheets and collages.',
+    icon: Wand2,
+  },
+  {
+    id: 'pdf-studio',
+    name: 'PDF studio',
+    formats: 'Merge · split · organize · compress',
+    description: 'Full PDF workspace: merge, split, rotate and reorder pages, compress, watermark, extract text or flatten to one long image.',
+    icon: Layers,
   },
 ];
 
@@ -245,6 +263,12 @@ export default function App() {
               </section>
               <section className="tool-pane" hidden={active !== 'image-to-pdf'}>
                 <ImageToPdf onNotice={notify} />
+              </section>
+              <section className="tool-pane" hidden={active !== 'image-studio'}>
+                <ImageStudio onNotice={notify} />
+              </section>
+              <section className="tool-pane" hidden={active !== 'pdf-studio'}>
+                <PdfStudio onNotice={notify} />
               </section>
             </div>
           </div>
