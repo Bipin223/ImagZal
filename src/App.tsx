@@ -12,6 +12,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import bipinPhoto from './assets/bipin.jpg';
 import { LoadingScreen } from './components/LoadingScreen';
 import { SiteHeader } from './components/SiteHeader';
 import { Toasts } from './components/Toasts';
@@ -249,7 +250,19 @@ export default function App() {
             <span className="section-kicker">
               <UserRound /> About
             </span>
-            <h2>Made by Bipin Rizal.</h2>
+            <div className="about-profile">
+              <img
+                className="about-avatar"
+                src={bipinPhoto}
+                width={88}
+                height={88}
+                alt="Portrait of Bipin Rizal"
+              />
+              <div>
+                <h2>Made by Bipin Rizal.</h2>
+                <p className="about-role">BCA student · Nepal</p>
+              </div>
+            </div>
           </div>
           <div className="about-copy" data-reveal>
             <p>

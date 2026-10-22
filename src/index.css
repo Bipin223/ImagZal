@@ -1861,6 +1861,51 @@ main {
   line-height: 1.25;
 }
 
+.about-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.about-avatar {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--panel);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 10px 24px -14px rgba(0, 0, 0, 0.45);
+  animation: about-float 5.5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.about-avatar:hover {
+  animation-play-state: paused;
+}
+
+@keyframes about-float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+.about-profile h2 {
+  margin: 0;
+}
+
+.about-role {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
 .about-copy p {
   margin: 0;
   max-width: 560px;
