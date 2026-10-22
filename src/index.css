@@ -2192,6 +2192,477 @@ main {
   color: var(--ink);
 }
 
+/* ---------- scaling showcase ---------- */
+
+.showcase {
+  padding-block: clamp(34px, 5vw, 58px) clamp(18px, 3vw, 30px);
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 96px;
+}
+
+.showcase-head {
+  max-width: 640px;
+}
+
+.showcase-title {
+  margin: 8px 0 0;
+  font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.showcase-lead {
+  max-width: 54ch;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.showcase-slider {
+  margin-top: clamp(24px, 3.6vw, 38px);
+}
+
+.showcase-stage {
+  position: relative;
+  height: clamp(330px, 32vw, 400px);
+}
+
+.showcase-slide {
+  position: absolute;
+  container-type: inline-size;
+  transition:
+    left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    right 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    bottom 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease;
+}
+
+.slot-0 {
+  z-index: 3;
+  top: 50%;
+  left: 0;
+  width: min(64%, 660px);
+  height: 100%;
+  transform: translateY(-50%);
+}
+
+.slot-1 {
+  z-index: 2;
+  top: 0;
+  left: 67%;
+  width: 33%;
+  height: 57%;
+}
+
+.slot-2 {
+  z-index: 1;
+  bottom: 0;
+  left: 70%;
+  width: 26%;
+  height: 43%;
+}
+
+.showcase-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(18px, 3.2cqw, 30px);
+  height: 100%;
+  overflow: hidden;
+  padding: clamp(16px, 2.1vw, 24px);
+  border: 1px solid var(--line);
+  border-radius: clamp(14px, 1.7vw, 22px);
+  background:
+    radial-gradient(120% 130% at 100% 0%, var(--accent-soft), transparent 55%),
+    linear-gradient(160deg, var(--surface), var(--panel));
+  box-shadow:
+    0 26px 60px -36px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 var(--dock-highlight);
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slot-1 .showcase-card,
+.slot-2 .showcase-card {
+  position: relative;
+  justify-content: center;
+  gap: 0;
+}
+
+.slot-1 .showcase-copy p,
+.slot-2 .showcase-copy p,
+.slot-1 .mock,
+.slot-2 .mock {
+  display: none;
+}
+
+.slot-1 .showcase-copy h3,
+.slot-2 .showcase-copy h3 {
+  font-size: clamp(0.82rem, 3.4cqw, 1.05rem);
+}
+
+.showcase-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: clamp(0.6rem, 2.05cqw, 0.74rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.showcase-kicker svg {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.showcase-copy h3 {
+  margin: 8px 0 0;
+  font-size: clamp(1.05rem, 5.2cqw, 1.95rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.14;
+}
+
+.showcase-copy p {
+  max-width: 34ch;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: clamp(0.7rem, 2.15cqw, 0.88rem);
+  line-height: 1.6;
+}
+
+.showcase-mark {
+  display: none;
+}
+
+.slot-1 .showcase-mark,
+.slot-2 .showcase-mark {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  width: 30%;
+  max-width: 86px;
+  aspect-ratio: 1;
+  opacity: 0.12;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.showcase-mark svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.25;
+}
+
+.showcase-hit {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.showcase-hit:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .showcase-slide:hover .showcase-card {
+    border-color: var(--line-strong);
+  }
+
+  .slot-1:hover .showcase-card,
+  .slot-2:hover .showcase-card {
+    transform: translateY(-3px);
+  }
+}
+
+/* mock previews */
+
+.mock {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: clamp(10px, 1.7cqw, 14px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.mock-file {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.mock-thumb {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.mock-thumb svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mock-file-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mock-file-copy strong {
+  overflow: hidden;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mock-file-copy span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  line-height: 1.4;
+}
+
+.mock-pill {
+  margin-left: auto;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+
+.mock-meter {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--panel-deep);
+}
+
+.mock-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ink);
+}
+
+.slot-0 .mock-meter span {
+  animation: mock-fill 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mock-fill {
+  from {
+    width: 0;
+  }
+}
+
+.mock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.67rem;
+}
+
+.mock-row strong {
+  color: var(--ink);
+  font-size: 0.72rem;
+}
+
+.mock-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-size: 0.63rem;
+  font-weight: 600;
+}
+
+.mock-badge svg {
+  width: 11px;
+  height: 11px;
+}
+
+.mock-pages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.mock-page {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 0.72;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.65rem;
+  transition: transform 0.3s ease;
+}
+
+.mock-page svg {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 10px;
+  height: 10px;
+}
+
+.mock-page.is-turned {
+  border-color: var(--line-strong);
+  transform: rotate(5deg);
+}
+
+.mock-page.is-removed {
+  opacity: 0.38;
+}
+
+.mock-page.is-removed span {
+  text-decoration: line-through;
+}
+
+.mock-page.is-add {
+  border-style: dashed;
+  color: var(--faint);
+  font-size: 1rem;
+}
+
+.mock-safe {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 11px;
+}
+
+.mock-shield {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 11px;
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.mock-shield svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mock-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.mock-tags span {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--faint);
+  font-size: 0.6rem;
+  text-decoration: line-through;
+}
+
+.mock-badge-quiet {
+  margin-left: auto;
+}
+
+.showcase-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.showcase-controls .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.showcase-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.showcase-dot {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.showcase-dot span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease;
+}
+
+.showcase-dot.is-active span {
+  width: 18px;
+  background: var(--ink);
+}
+
+.showcase-count {
+  margin-left: auto;
+  margin-right: 2px;
+  color: var(--faint);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
 /* ---------- about ---------- */
 
 .about {
@@ -2442,6 +2913,24 @@ main {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
+  .showcase-stage {
+    height: 400px;
+  }
+
+  .slot-0 {
+    width: 68%;
+  }
+
+  .slot-1 {
+    left: 70%;
+    width: 30%;
+  }
+
+  .slot-2 {
+    left: 73%;
+    width: 23%;
+  }
 }
 
 @media (max-width: 780px) {
@@ -2455,6 +2944,51 @@ main {
 
   .header-dock {
     gap: 10px;
+  }
+
+  .showcase-stage {
+    height: 390px;
+  }
+
+  .showcase-slide {
+    transition:
+      left 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      top 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      width 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease;
+  }
+
+  .slot-0 {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+
+  .slot-1,
+  .slot-2 {
+    left: 60%;
+    width: 40%;
+    height: 52%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px) scale(0.96);
+  }
+
+  .slot-1 {
+    top: 8%;
+  }
+
+  .slot-2 {
+    top: auto;
+    bottom: 8%;
+  }
+
+  .showcase-controls {
+    margin-top: 12px;
   }
 }
 
@@ -2640,6 +3174,23 @@ main {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .showcase-card {
+    padding: 18px;
+  }
+
+  .showcase-copy h3 {
+    font-size: clamp(1.15rem, 5.6cqw, 1.6rem);
+  }
+
+  .showcase-copy p {
+    font-size: 0.8rem;
+  }
+
+  .showcase-controls .icon-btn {
+    width: 34px;
+    height: 34px;
+  }
 }
 
 @media (max-width: 460px) {
@@ -2683,6 +3234,22 @@ main {
   .header-github-link {
     width: 32px;
     height: 32px;
+  }
+
+  .showcase-stage {
+    height: 380px;
+  }
+
+  .showcase-card {
+    padding: 16px;
+  }
+
+  .showcase-copy h3 {
+    font-size: 1.2rem;
+  }
+
+  .showcase-copy p {
+    font-size: 0.78rem;
   }
 }
 

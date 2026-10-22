@@ -16,6 +16,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import bipinPhoto from './assets/bipin.jpg';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ScalingShowcase } from './components/ScalingShowcase';
 import { SiteHeader } from './components/SiteHeader';
 import { Toasts } from './components/Toasts';
 import { useScrollReveal } from './hooks/useScrollReveal';
@@ -272,6 +273,22 @@ export default function App() {
               </section>
             </div>
           </div>
+        </section>
+
+        <section className="showcase container" id="showcase" aria-labelledby="showcase-title" data-reveal>
+          <div className="showcase-head">
+            <span className="section-kicker">
+              <Sparkles /> A closer look
+            </span>
+            <h2 className="showcase-title" id="showcase-title">
+              Small tools. Serious work.
+            </h2>
+            <p className="showcase-lead">
+              Three quick previews of what happens after you drop a file — scale through them,
+              or let them cycle.
+            </p>
+          </div>
+          <ScalingShowcase />
         </section>
 
         <section className="about container" id="about">
