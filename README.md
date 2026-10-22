@@ -21,6 +21,11 @@ npm run dev
 npm run build
 ```
 
+## Deploy
+
+Pushes to `main` build the site and deploy it to GitHub Pages at
+<https://bipin223.github.io/ImagZal/> using `.github/workflows/deploy.yml`.
+
 ## Notes
 
 - HEIC and TIFF files are decoded locally with `heic2any` and `UTIF`.

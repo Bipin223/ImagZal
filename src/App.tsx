@@ -302,7 +302,7 @@ export default function App() {
           <span className="footer-left">
             <img
               className="footer-logo"
-              src="/logo.svg"
+              src={`${import.meta.env.BASE_URL}logo.svg`}
               width={24}
               height={24}
               alt=""

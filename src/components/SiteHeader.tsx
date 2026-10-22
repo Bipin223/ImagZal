@@ -85,7 +85,13 @@ export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="header-dock">
         <a className="brand" href="#home" aria-label="ImagZal — home">
-          <img className="brand-logo" src="/logo.svg" width={38} height={38} alt="" />
+          <img
+            className="brand-logo"
+            src={`${import.meta.env.BASE_URL}logo.svg`}
+            width={38}
+            height={38}
+            alt=""
+          />
           <span className="brand-copy">
             <span className="brand-name">ImagZal</span>
             <span className="brand-by">by Bipin Rizal</span>
