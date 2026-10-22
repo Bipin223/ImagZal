@@ -284,7 +284,7 @@ export default function App() {
               Small tools. Serious work.
             </h2>
             <p className="showcase-lead">
-              Three quick previews of what happens after you drop a file — scale through them,
+              Three quick previews of what happens after you drop a file — slide through them,
               or let them cycle.
             </p>
           </div>
