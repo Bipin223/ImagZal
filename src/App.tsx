@@ -18,6 +18,7 @@ import type { LucideIcon } from 'lucide-react';
 import bipinPhoto from './assets/bipin.jpg';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ScalingShowcase } from './components/ScalingShowcase';
+import { ScrollRuler } from './components/ScrollRuler';
 import { SiteHeader } from './components/SiteHeader';
 import { Toasts } from './components/Toasts';
 import { useScrollReveal } from './hooks/useScrollReveal';
@@ -161,6 +162,7 @@ export default function App() {
     <div id="top">
       {!introDone ? <LoadingScreen onDone={finishIntro} /> : null}
       <SiteHeader theme={theme} onToggleTheme={toggleTheme} />
+      <ScrollRuler />
 
       <main>
         <section className="hero container" id="home">
