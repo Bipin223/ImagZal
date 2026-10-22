@@ -1989,6 +1989,20 @@ main {
   color: var(--ink);
 }
 
+.footer-replay {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+
+.footer-replay:hover {
+  color: var(--ink);
+}
+
 /* ---------- toasts ---------- */
 
 .toasts {

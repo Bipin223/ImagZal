@@ -78,6 +78,11 @@ export default function App() {
 
   const finishIntro = useCallback(() => setIntroDone(true), []);
 
+  const replayIntro = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    setIntroDone(false);
+  }, []);
+
   useScrollReveal(introDone);
 
   useEffect(() => {
@@ -311,6 +316,9 @@ export default function App() {
             <a href="https://github.com/Bipin223" target="_blank" rel="noreferrer">
               GitHub
             </a>
+            <button type="button" className="footer-replay" onClick={replayIntro}>
+              Replay intro
+            </button>
             <span>All processing happens on your device.</span>
           </span>
         </div>

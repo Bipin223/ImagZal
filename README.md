@@ -28,7 +28,7 @@ npm run build
 - GIF input uses the first frame.
 - PDF pages are rendered with `pdf.js`; PDF files are written with `jsPDF`.
 - Fonts are bundled and the app makes no network requests after loading.
-- The intro animation plays once per session (add `?intro` to the URL to replay it) and is skipped when the system prefers reduced motion.
+- The intro animation plays once per session (use **Replay intro** in the footer, or add `?intro` to the URL, to watch it again) and is skipped when the system prefers reduced motion.
 - The theme toggle follows the system colour scheme until you pick one, then remembers your choice.
 
 ## Author
