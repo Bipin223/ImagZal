@@ -12,8 +12,11 @@ import {
   UserRound,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { LoadingScreen } from './components/LoadingScreen';
 import { SiteHeader } from './components/SiteHeader';
 import { Toasts } from './components/Toasts';
+import { useScrollReveal } from './hooks/useScrollReveal';
+import { useTheme } from './hooks/useTheme';
 import { ImageConverter } from './tools/ImageConverter';
 import { PdfToImage } from './tools/PdfToImage';
 import { ImageToPdf } from './tools/ImageToPdf';
@@ -53,11 +56,37 @@ const TOOLS: Tool[] = [
   },
 ];
 
+function shouldShowIntro() {
+  if (typeof window === 'undefined') return false;
+  if (new URLSearchParams(window.location.search).has('intro')) return true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  try {
+    return sessionStorage.getItem('imagzal-intro-seen') !== '1';
+  } catch {
+    return true;
+  }
+}
+
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
+  const [introDone, setIntroDone] = useState(() => !shouldShowIntro());
   const [active, setActive] = useState<ToolId>('images');
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const toastId = useRef(0);
   const timers = useRef<number[]>([]);
+
+  const finishIntro = useCallback(() => setIntroDone(true), []);
+
+  useScrollReveal(introDone);
+
+  useEffect(() => {
+    if (introDone) return;
+    try {
+      sessionStorage.setItem('imagzal-intro-seen', '1');
+    } catch {
+      // Ignore unavailable session storage.
+    }
+  }, [introDone]);
 
   const notify = useCallback((message: string, kind: ToastItem['kind'] = 'info') => {
     toastId.current += 1;
@@ -103,24 +132,27 @@ export default function App() {
 
   return (
     <div id="top">
-      <SiteHeader />
+      {!introDone ? <LoadingScreen onDone={finishIntro} /> : null}
+      <SiteHeader theme={theme} onToggleTheme={toggleTheme} />
 
       <main>
         <section className="hero container" id="home">
           <div className="hero-grid">
-            <div>
-              <span className="hero-badge">
+            <div className="hero-copy">
+              <span className="hero-badge" data-reveal>
                 <Sparkles /> Personal toolkit of Bipin Rizal
               </span>
 
-              <h1 className="hero-title">Simple tools for everyday files.</h1>
+              <h1 className="hero-title" data-reveal>
+                Simple tools for everyday files.
+              </h1>
 
-              <p className="hero-sub">
+              <p className="hero-sub" data-reveal>
                 Convert an image, pull pages out of a PDF, or turn a set of photos into one PDF.
                 Everything runs in this browser, so your files never leave your device.
               </p>
 
-              <div className="hero-actions">
+              <div className="hero-actions" data-reveal>
                 <a className="btn btn-solid btn-lg" href="#workspace">
                   Start with a tool <ArrowRight />
                 </a>
@@ -134,7 +166,7 @@ export default function App() {
                 </a>
               </div>
 
-              <div className="hero-meta">
+              <div className="hero-meta" data-reveal>
                 <span>
                   <ShieldCheck /> No uploads
                 </span>
@@ -147,7 +179,7 @@ export default function App() {
               </div>
             </div>
 
-            <aside className="hero-side" id="tools" aria-label="Tools">
+            <aside className="hero-side" id="tools" aria-label="Tools" data-reveal>
               <span className="section-kicker">
                 <Sparkles /> Tools
               </span>
@@ -182,7 +214,7 @@ export default function App() {
         </section>
 
         <section className="section container" id="workspace" aria-labelledby="workspace-title">
-          <div className="workspace">
+          <div className="workspace" data-reveal>
             <div className="workspace-head">
               <div className="workspace-title">
                 <span className="workspace-icon" aria-hidden="true">
@@ -213,13 +245,13 @@ export default function App() {
         </section>
 
         <section className="about container" id="about">
-          <div>
+          <div data-reveal>
             <span className="section-kicker">
               <UserRound /> About
             </span>
             <h2>Made by Bipin Rizal.</h2>
           </div>
-          <div className="about-copy">
+          <div className="about-copy" data-reveal>
             <p>
               I’m a BCA student and developer from Nepal. ImagZal is a small set of browser
               tools that skip the sign-up screen and keep your files where they belong — on
@@ -248,7 +280,7 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-inner">
+        <div className="container footer-inner" data-reveal>
           <span className="footer-left">
             <img
               className="footer-logo"
