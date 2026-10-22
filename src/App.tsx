@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -153,6 +154,7 @@ export default function App() {
   };
 
   const activeTool = TOOLS.find((tool) => tool.id === active) ?? TOOLS[0];
+  const activeToolIndex = TOOLS.findIndex((tool) => tool.id === activeTool.id);
   const ActiveIcon = activeTool.icon;
 
   return (
@@ -209,14 +211,16 @@ export default function App() {
                 <Sparkles /> Tools
               </span>
               <div className="tool-list">
-                {TOOLS.map((tool) => {
+                {TOOLS.map((tool, index) => {
                   const Icon = tool.icon;
+                  const depth = Math.abs(index - activeToolIndex);
                   return (
                     <button
                       key={tool.id}
                       type="button"
                       className={`tool-card${active === tool.id ? ' is-active' : ''}`}
                       aria-pressed={active === tool.id}
+                      style={{ '--depth': depth } as CSSProperties}
                       onClick={() => openTool(tool.id)}
                     >
                       <span className="tool-icon" aria-hidden="true">
