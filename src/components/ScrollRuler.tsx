@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent, PointerEvent } from 'react';
 
-const TICKS = Array.from({ length: 101 }, (_, index) => index);
+const TICKS = [0, 20, 40, 60, 80, 100];
 
 function maxScroll(): number {
   return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
@@ -119,19 +119,16 @@ export function ScrollRuler() {
       onKeyDown={handleKeyDown}
     >
       <div ref={trackRef} className="ruler-track">
-        {TICKS.map((tick) => {
-          const major = tick % 5 === 0;
-          return (
-            <span
-              key={tick}
-              className={`ruler-tick${major ? ' ruler-major' : ''}`}
-              style={{ top: `${tick}%` }}
-              aria-hidden="true"
-            >
-              {major && <span>{tick}</span>}
-            </span>
-          );
-        })}
+        {TICKS.map((tick) => (
+          <span
+            key={tick}
+            className="ruler-tick ruler-major"
+            style={{ top: `${tick}%` }}
+            aria-hidden="true"
+          >
+            <span>{tick}</span>
+          </span>
+        ))}
 
         <span
           className={`ruler-marker${progress > 0.93 ? ' is-near-end' : ''}`}
