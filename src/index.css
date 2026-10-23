@@ -43,6 +43,11 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --dock-highlight: rgba(255, 255, 255, 0.7);
   --hero-glow: rgba(17, 24, 39, 0.1);
+  --card-glow: rgba(17, 24, 39, 0.16);
+  --card-glow-soft: rgba(17, 24, 39, 0.08);
+  --card-edge-strong: rgba(17, 24, 39, 0.17);
+  --card-edge-soft: rgba(17, 24, 39, 0.04);
+  --card-inner: rgba(255, 255, 255, 0.9);
   color-scheme: light;
 }
 
@@ -78,6 +83,11 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   --dock-highlight: rgba(255, 255, 255, 0.06);
   --hero-glow: rgba(148, 163, 184, 0.18);
+  --card-glow: rgba(255, 255, 255, 0.24);
+  --card-glow-soft: rgba(255, 255, 255, 0.08);
+  --card-edge-strong: rgba(255, 255, 255, 0.32);
+  --card-edge-soft: rgba(255, 255, 255, 0.06);
+  --card-inner: rgba(255, 255, 255, 0.05);
   color-scheme: dark;
 }
 
@@ -1207,24 +1217,34 @@ main {
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.35s ease,
     background-color 0.15s ease,
-    border-color 0.15s ease,
     box-shadow 0.3s ease;
 }
 
 .tool-card:hover {
   opacity: 1;
   background: var(--panel-deep);
+  box-shadow: 0 0 0 1px var(--card-glow-soft);
   transform: translateX(calc(var(--depth) * 4px + 3px)) scale(calc(1 - var(--depth) * 0.018));
 }
 
 .tool-card.is-active {
   z-index: 11;
   opacity: 1;
-  background: var(--surface);
-  border-color: var(--ink);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(
+        140deg,
+        var(--card-edge-strong),
+        transparent 38%,
+        transparent 62%,
+        var(--card-edge-soft)
+      )
+      border-box;
   box-shadow:
-    0 16px 34px -22px rgba(0, 0, 0, 0.7),
-    var(--shadow-sm);
+    0 0 34px -2px var(--card-glow),
+    0 18px 40px -28px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 var(--card-inner);
   transform: translateX(0) scale(1.02);
 }
 
