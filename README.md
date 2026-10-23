@@ -57,7 +57,7 @@ cd android
 The APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`.
 A local build needs JDK 21 and Android SDK 36.
 
-Inside the Android app, converted files open the system **share/save sheet** — pick Files, Drive, or any other app to keep them. The APK is debug-signed, so it installs by sideloading (allow installs from your file manager).
+Inside the Android app, converted files are saved directly to **Downloads/ImagZal** on the phone (with a confirmation toast), instead of opening a share sheet. The APK is debug-signed, so it installs by sideloading (allow installs from your file manager).
 
 The Android layout is intentionally different from the website: there is no web footer or About section. The author card, Portfolio/GitHub links, **Replay intro** and theme switch live in a slide-out menu opened from the top-right button.
 

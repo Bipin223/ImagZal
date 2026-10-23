@@ -1,4 +1,16 @@
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, registerPlugin } from '@capacitor/core';
+
+interface NativeSaveOptions {
+  base64: string;
+  filename: string;
+  mime: string;
+}
+
+interface NativeSaverPlugin {
+  saveFile(options: NativeSaveOptions): Promise<{ uri: string; path: string }>;
+}
+
+const NativeSaver = registerPlugin<NativeSaverPlugin>('ImagZal');
 
 export function cn(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ');
@@ -53,23 +65,12 @@ function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-/** On Android, write to the cache and open the system share/save sheet. */
-async function saveNativeFile(blob: Blob, filename: string): Promise<void> {
-  const [{ Filesystem, Directory }, { Share }] = await Promise.all([
-    import('@capacitor/filesystem'),
-    import('@capacitor/share'),
-  ]);
-  const safeName = filename.replace(/[\\/:*?"<>|]/g, '-');
-  const written = await Filesystem.writeFile({
-    path: safeName,
-    data: await blobToBase64(blob),
-    directory: Directory.Cache,
-    recursive: true,
-  });
-  await Share.share({
-    title: safeName,
-    files: [written.uri],
-    dialogTitle: 'Save or share',
+/** On Android, save directly into Downloads/ImagZal and show a native toast. */
+async function saveNativeFile(blob: Blob, filename: string): Promise<void> {  const safeName = filename.replace(/[\\/:*?"<>|]/g, '-');
+  await NativeSaver.saveFile({
+    base64: await blobToBase64(blob),
+    filename: safeName,
+    mime: blob.type || 'application/octet-stream',
   });
 }
 
