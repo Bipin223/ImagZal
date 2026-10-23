@@ -42,6 +42,23 @@ npm run build
 Pushes to `main` build the site and deploy it to GitHub Pages at
 <https://bipin223.github.io/ImagZal/> using `.github/workflows/deploy.yml`.
 
+## Android app
+
+The app also builds as an offline Android app with Capacitor — all web assets are bundled in the APK, so no connection is needed after installing.
+
+```bash
+npm install
+npm run build          # default base, not build:pages
+npx cap sync android
+cd android
+./gradlew assembleDebug
+```
+
+The APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`.
+A local build needs JDK 21 and Android SDK 36.
+
+Inside the Android app, converted files open the system **share/save sheet** — pick Files, Drive, or any other app to keep them. The APK is debug-signed, so it installs by sideloading (allow installs from your file manager).
+
 ## Notes
 
 - HEIC and TIFF files are decoded locally with `heic2any` and `UTIF`.

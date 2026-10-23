@@ -4,3 +4,4 @@ dist
 .freebuff
 *.local
 .DS_Store
+release/
