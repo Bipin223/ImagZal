@@ -472,7 +472,7 @@ export function ImageConverter({ onNotice }: ImageConverterProps) {
 
       {items.length === 0 && (
         <p className="hero-side-note">
-          Your files stay in this browser tab. Nothing is uploaded.
+          Your files stay on this device. Nothing is uploaded.
         </p>
       )}
     </div>

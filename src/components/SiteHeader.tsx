@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Github, House, Moon, Sun, UserRound, Wrench } from 'lucide-react';
+import { Github, House, Menu, Moon, Sun, UserRound, Wrench } from 'lucide-react';
 import type { Theme } from '../hooks/useTheme';
 
 const NAV = [
@@ -16,7 +16,7 @@ interface HeaderState {
   progress: number;
 }
 
-function useHeaderState(): HeaderState {
+function useHeaderState(isApp: boolean): HeaderState {
   const [state, setState] = useState<HeaderState>({
     active: 'home',
     scrolled: false,
@@ -42,7 +42,7 @@ function useHeaderState(): HeaderState {
       for (const section of sections) {
         if (section.element.offsetTop <= probe) active = section.id;
       }
-      if (maxScroll > 0 && scrollY >= maxScroll - 4) active = 'about';
+      if (maxScroll > 0 && scrollY >= maxScroll - 4) active = isApp ? 'workspace' : 'about';
 
       setState((previous) => {
         if (
@@ -68,7 +68,7 @@ function useHeaderState(): HeaderState {
       window.removeEventListener('resize', onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [isApp]);
 
   return state;
 }
@@ -76,10 +76,18 @@ function useHeaderState(): HeaderState {
 interface SiteHeaderProps {
   theme: Theme;
   onToggleTheme: () => void;
+  isApp?: boolean;
+  onOpenSidebar?: () => void;
 }
 
-export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
-  const { active, scrolled, progress } = useHeaderState();
+export function SiteHeader({
+  theme,
+  onToggleTheme,
+  isApp = false,
+  onOpenSidebar,
+}: SiteHeaderProps) {
+  const { active, scrolled, progress } = useHeaderState(isApp);
+  const navItems = isApp ? NAV.filter(({ id }) => id !== 'about') : NAV;
 
   return (
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
@@ -99,7 +107,7 @@ export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
         </a>
 
         <nav className="nav-tabs" aria-label="Main navigation">
-          {NAV.map(({ id, label, icon: Icon }) => (
+          {navItems.map(({ id, label, icon: Icon }) => (
             <a
               key={id}
               className={`tab${active === id ? ' is-active' : ''}`}
@@ -131,16 +139,28 @@ export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
             </span>
           </button>
 
-          <a
-            className="header-github-link"
-            href="https://github.com/Bipin223/ImagZal"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="View ImagZal on GitHub"
-            title="View ImagZal on GitHub"
-          >
-            <Github />
-          </a>
+          {isApp ? (
+            <button
+              type="button"
+              className="header-github-link"
+              onClick={onOpenSidebar}
+              aria-label="Open menu"
+              title="Menu"
+            >
+              <Menu />
+            </button>
+          ) : (
+            <a
+              className="header-github-link"
+              href="https://github.com/Bipin223/ImagZal"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="View ImagZal on GitHub"
+              title="View ImagZal on GitHub"
+            >
+              <Github />
+            </a>
+          )}
         </div>
 
         <span

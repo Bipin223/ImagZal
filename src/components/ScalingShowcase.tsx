@@ -42,7 +42,7 @@ const SLIDES: Slide[] = [
   {
     id: 'privacy',
     kicker: 'Privacy',
-    title: 'Nothing leaves this tab.',
+    title: 'Nothing leaves this device.',
     copy: 'Strip EXIF and GPS on request, skip the account, and keep working offline.',
     icon: ShieldCheck,
     visual: 'privacy',

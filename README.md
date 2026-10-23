@@ -59,6 +59,21 @@ A local build needs JDK 21 and Android SDK 36.
 
 Inside the Android app, converted files open the system **share/save sheet** — pick Files, Drive, or any other app to keep them. The APK is debug-signed, so it installs by sideloading (allow installs from your file manager).
 
+The Android layout is intentionally different from the website: there is no web footer or About section. The author card, Portfolio/GitHub links, **Replay intro** and theme switch live in a slide-out menu opened from the top-right button.
+
+### Changing the Android app later
+
+| What | Where |
+| --- | --- |
+| App name | `android/app/src/main/res/values/strings.xml` |
+| Version | `android/app/build.gradle` (`versionCode`, `versionName`) |
+| Package ID | `capacitor.config.ts` + `android/app/build.gradle` |
+| Icon | Replace the sources in `android/branding/` — see its README |
+| Splash colours | `android/app/src/main/res/values/styles.xml` |
+| Branding / tools | Rebuild with `npm run build && npx cap sync android` |
+
+Icons and splash use the same dark ImgZal identity as the web app. Any new asset can be regenerated in Android Studio without touching the web code.
+
 ## Notes
 
 - HEIC and TIFF files are decoded locally with `heic2any` and `UTIF`.

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { Capacitor } from '@capacitor/core';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import bipinPhoto from './assets/bipin.jpg';
+import { AppSidebar } from './components/AppSidebar';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ScalingShowcase } from './components/ScalingShowcase';
 import { ScrollRuler } from './components/ScrollRuler';
@@ -96,6 +98,13 @@ export default function App() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const toastId = useRef(0);
   const timers = useRef<number[]>([]);
+  const isApp = useMemo(
+    () =>
+      Capacitor.isNativePlatform() ||
+      (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('app')),
+    [],
+  );
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const finishIntro = useCallback(() => setIntroDone(true), []);
 
@@ -103,6 +112,13 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
     setIntroDone(false);
   }, []);
+
+  const openSidebar = useCallback(() => setSidebarOpen(true), []);
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+  const replayIntroFromSidebar = useCallback(() => {
+    setSidebarOpen(false);
+    replayIntro();
+  }, [replayIntro]);
 
   useScrollReveal(introDone);
 
@@ -161,10 +177,24 @@ export default function App() {
   return (
     <div id="top">
       {!introDone ? <LoadingScreen onDone={finishIntro} /> : null}
-      <SiteHeader theme={theme} onToggleTheme={toggleTheme} />
+      <SiteHeader
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        isApp={isApp}
+        onOpenSidebar={openSidebar}
+      />
+      {isApp && (
+        <AppSidebar
+          open={sidebarOpen}
+          theme={theme}
+          onClose={closeSidebar}
+          onToggleTheme={toggleTheme}
+          onReplayIntro={replayIntroFromSidebar}
+        />
+      )}
       <ScrollRuler />
 
-      <main>
+      <main className={isApp ? 'app-main' : undefined}>
         <section className="hero container" id="home">
           <div className="hero-grid">
             <div className="hero-copy">
@@ -177,8 +207,9 @@ export default function App() {
               </h1>
 
               <p className="hero-sub" data-reveal>
-                Convert an image, pull pages out of a PDF, or turn a set of photos into one PDF.
-                Everything runs in this browser, so your files never leave your device.
+                {isApp
+                  ? 'Convert an image, pull pages out of a PDF, or turn a set of photos into one PDF. Everything runs on your device, so your files never leave it.'
+                  : 'Convert an image, pull pages out of a PDF, or turn a set of photos into one PDF. Everything runs in this browser, so your files never leave your device.'}
               </p>
 
               <div className="hero-actions" data-reveal>
@@ -238,7 +269,7 @@ export default function App() {
                 })}
               </div>
               <p className="hero-side-note">
-                <ShieldCheck /> Files stay in this tab
+                <ShieldCheck /> {isApp ? 'Files stay on this device' : 'Files stay in this tab'}
               </p>
             </aside>
           </div>
@@ -297,79 +328,83 @@ export default function App() {
           <ScalingShowcase />
         </section>
 
-        <section className="about container" id="about">
-          <div data-reveal>
-            <span className="section-kicker">
-              <UserRound /> About
-            </span>
-            <div className="about-profile">
-              <img
-                className="about-avatar"
-                src={bipinPhoto}
-                width={88}
-                height={88}
-                alt="Portrait of Bipin Rizal"
-              />
-              <div>
-                <h2>Made by Bipin Rizal.</h2>
-                <p className="about-role">BCA student · Nepal</p>
+        {!isApp && (
+          <section className="about container" id="about">
+            <div data-reveal>
+              <span className="section-kicker">
+                <UserRound /> About
+              </span>
+              <div className="about-profile">
+                <img
+                  className="about-avatar"
+                  src={bipinPhoto}
+                  width={88}
+                  height={88}
+                  alt="Portrait of Bipin Rizal"
+                />
+                <div>
+                  <h2>Made by Bipin Rizal.</h2>
+                  <p className="about-role">BCA student · Nepal</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="about-copy" data-reveal>
-            <p>
-              I’m a BCA student and developer from Nepal. ImagZal is a small set of browser
-              tools that skip the sign-up screen and keep your files where they belong — on
-              your device.
-            </p>
-            <div className="about-links">
-              <a
-                className="about-link"
-                href="https://bipin-rijal.vercel.app"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Portfolio <ArrowUpRight />
-              </a>
-              <a
-                className="about-link"
-                href="https://github.com/Bipin223"
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub <ArrowUpRight />
-              </a>
+            <div className="about-copy" data-reveal>
+              <p>
+                I’m a BCA student and developer from Nepal. ImagZal is a small set of browser
+                tools that skip the sign-up screen and keep your files where they belong — on
+                your device.
+              </p>
+              <div className="about-links">
+                <a
+                  className="about-link"
+                  href="https://bipin-rijal.vercel.app"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Portfolio <ArrowUpRight />
+                </a>
+                <a
+                  className="about-link"
+                  href="https://github.com/Bipin223"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub <ArrowUpRight />
+                </a>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
 
-      <footer className="site-footer">
-        <div className="container footer-inner" data-reveal>
-          <span className="footer-left">
-            <img
-              className="footer-logo"
-              src={`${import.meta.env.BASE_URL}logo.svg`}
-              width={24}
-              height={24}
-              alt=""
-            />
-            <span>ImagZal · © 2026 Bipin Rizal</span>
-          </span>
-          <span className="footer-links">
-            <a href="https://bipin-rijal.vercel.app" target="_blank" rel="noreferrer">
-              Portfolio
-            </a>
-            <a href="https://github.com/Bipin223" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <button type="button" className="footer-replay" onClick={replayIntro}>
-              Replay intro
-            </button>
-            <span>All processing happens on your device.</span>
-          </span>
-        </div>
-      </footer>
+      {!isApp && (
+        <footer className="site-footer">
+          <div className="container footer-inner" data-reveal>
+            <span className="footer-left">
+              <img
+                className="footer-logo"
+                src={`${import.meta.env.BASE_URL}logo.svg`}
+                width={24}
+                height={24}
+                alt=""
+              />
+              <span>ImagZal · © 2026 Bipin Rizal</span>
+            </span>
+            <span className="footer-links">
+              <a href="https://bipin-rijal.vercel.app" target="_blank" rel="noreferrer">
+                Portfolio
+              </a>
+              <a href="https://github.com/Bipin223" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              <button type="button" className="footer-replay" onClick={replayIntro}>
+                Replay intro
+              </button>
+              <span>All processing happens on your device.</span>
+            </span>
+          </div>
+        </footer>
+      )}
 
       <Toasts toasts={toasts} />
     </div>
