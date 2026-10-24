@@ -2634,6 +2634,69 @@ main {
   color: var(--ink);
 }
 
+.wm-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.wm-canvas-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.wm-canvas {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(52vh, 430px);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 34px -26px rgba(0, 0, 0, 0.7);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.wm-hint-overlay {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.wm-hint-overlay svg {
+  width: 13px;
+  height: 13px;
+}
+
+.wm-editor .studio-grid {
+  margin-top: 0;
+}
+
+.wm-editor .field-note {
+  margin: 0;
+}
+
 /* ---------- scaling showcase ---------- */
 
 .showcase {

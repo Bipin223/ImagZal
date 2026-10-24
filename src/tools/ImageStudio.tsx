@@ -12,12 +12,14 @@ import {
   LayoutGrid,
   Loader2,
   Minimize2,
+  Paintbrush,
   Scaling,
   ShieldCheck,
   X,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { FileDrop } from '../components/FileDrop';
+import { WatermarkRemover } from '../components/WatermarkRemover';
 import {
   compressToTarget,
   inspectImage,
@@ -44,7 +46,7 @@ interface ImageStudioProps {
   onNotice: (message: string, kind?: ToastItem['kind']) => void;
 }
 
-type Mode = 'compress' | 'resize' | 'watermark' | 'metadata' | 'favicon' | 'passport' | 'collage';
+type Mode = 'compress' | 'resize' | 'watermark' | 'remove' | 'metadata' | 'favicon' | 'passport' | 'collage';
 
 interface ModeInfo {
   id: Mode;
@@ -57,6 +59,7 @@ const MODES: ModeInfo[] = [
   { id: 'compress', label: 'Compress', icon: Minimize2, title: 'Compress to a target size' },
   { id: 'resize', label: 'Resize', icon: Scaling, title: 'Resize or crop images' },
   { id: 'watermark', label: 'Watermark', icon: Droplets, title: 'Watermark images' },
+  { id: 'remove', label: 'Remove', icon: Paintbrush, title: 'Remove a watermark' },
   { id: 'metadata', label: 'Privacy', icon: ShieldCheck, title: 'Inspect & strip metadata' },
   { id: 'favicon', label: 'Favicons', icon: Globe, title: 'Generate a favicon pack' },
   { id: 'passport', label: 'Passport', icon: Contact, title: 'Passport photo sheet' },
@@ -278,7 +281,9 @@ export function ImageStudio({ onNotice }: ImageStudioProps) {
             ? 'Use a clear, front-facing photo with some space around the head.'
             : mode === 'favicon'
               ? 'Square images work best. Transparent PNG is ideal.'
-              : 'Nothing leaves your device.'
+              : mode === 'remove'
+                ? 'Paint over the watermark to remove it.'
+                : 'Nothing leaves your device.'
         }
         icon={ImageIcon}
         multiple={multi}
@@ -645,6 +650,10 @@ export function ImageStudio({ onNotice }: ImageStudioProps) {
             </button>
           </div>
         </>
+      )}
+
+      {mode === 'remove' && files.length > 0 && (
+        <WatermarkRemover file={files[0]} onNotice={onNotice} />
       )}
 
       {mode === 'metadata' && files.length > 0 && (

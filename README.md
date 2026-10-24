@@ -13,6 +13,7 @@ ImagZal converts images, turns PDF pages into images, and combines photos into a
   - Compress to a target file size (JPG or WEBP, batch).
   - Resize or crop, with fit/cover modes.
   - Watermark text in any corner, centre or tiled.
+  - Remove a watermark by painting over it — the marked area is filled from the surrounding image.
   - Inspect and strip EXIF/GPS metadata.
   - Generate a full favicon pack (PNGs, ICO and web manifest) as a ZIP.
   - Passport photo sheets (Nepal 35 × 45 mm or US 2 × 2 in) on 4 × 6 or A4.
